@@ -143,6 +143,26 @@ body, div, span, p, h1, h2, h3, h4, h5, h6, label, input, button {
 </div>
 
 <div class="top-right-actions">
+  <div id="messageNotificationWrapper">
+    <div id="messageBtn" title="Mesajlar">✉<div id="messageBadge">0</div></div>
+  </div>
+  <div id="profileIcon" title="Profil">👤</div>
+  <button id="cargoBtn" title="Kargomu Al">Kargomu Al</button>
+  <button id="logoutBtn" title="Çıkış">Çıkış</button>
+</div>
+
+<!-- ================= MESAJ MODAL ================= -->
+<div id="messageModal">
+  <span class="modalClose">✖</span>
+  <h3>Mesajlar</h3>
+  <div id="messageList"></div>
+  <div id="messageDetail">
+    <h4 id="detailSubject"></h4>
+    <p id="detailContent"></p>
+    <button id="deleteMessageBtn">Sil</button>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getDatabase, ref, onValue, update, get, remove } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
@@ -248,12 +268,22 @@ const securityStatus=document.getElementById("securityStatus"),
       newPassword=document.getElementById("newPassword"),
       updatePasswordBtn=document.getElementById("updatePasswordBtn"),
       profileMessage=document.getElementById("profileMessage"),
+      messageBtn=document.getElementById("messageBtn"),
+      messageBadge=document.getElementById("messageBadge"),
+      messageModal=document.getElementById("messageModal"),
+      messageList=document.getElementById("messageList"),
+      messageDetail=document.getElementById("messageDetail"),
+      detailSubject=document.getElementById("detailSubject"),
+      detailContent=document.getElementById("detailContent"),
+      deleteMessageBtn=document.getElementById("deleteMessageBtn"),
       logoutBtn=document.getElementById("logoutBtn"),
+      cargoBtn=document.getElementById("cargoBtn");
 
 profileUsername.value=currentUser;
 profileIcon.addEventListener('click',()=>{profileModal.style.display='block';});
 profileClose.addEventListener('click',()=>{profileModal.style.display='none';});
 logoutBtn.addEventListener('click',()=>{sessionStorage.removeItem("currentUser"); window.location.href='index.html';});
+cargoBtn.addEventListener('click',()=>window.location.href='kargom.html');
 
 updatePasswordBtn.addEventListener('click',async()=>{
   profileMessage.innerText='';
@@ -468,6 +498,8 @@ onValue(messagesRef, snapshot=>{
     messageBadge.innerText=count;
 });
 
+messageBtn.addEventListener('click',()=>{ messageModal.style.display='flex'; });
+messageModal.querySelector('.modalClose').addEventListener('click',()=>{ messageModal.style.display='none'; messageDetail.style.display='none'; });
 const eksikModal = document.getElementById("eksikDevriyeModal");
 const eksikText = document.getElementById("eksikDevriyeText");
 const eksikList = document.getElementById("eksikNoktalarListesi");
