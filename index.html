@@ -390,6 +390,18 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
+// TÜRKÇE BÜYÜK HARF FONKSİYONU
+function toUpperTurkish(str){
+  const map = { "i":"İ", "ı":"I", "ş":"Ş", "ğ":"Ğ", "ü":"Ü", "ö":"Ö", "ç":"Ç" };
+  return str.split('').map(c => map[c] || c.toUpperCase()).join('');
+}
+
+// INPUTLARI BÜYÜK YAP
+[resUsername, resPassword].forEach(el => {
+  el.addEventListener("input", () => {
+    el.value = toUpperTurkish(el.value);
+  });
+});
 
 </script>
 <div class="corner-bottom">
